@@ -1,0 +1,34 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Plant {
+  id           Int           @id @default(autoincrement())
+  name         String
+  pricingRules PricingRule[]
+}
+
+model PricingRule {
+  id           Int      @id @default(autoincrement())
+  plantId      Int
+  clientType   String
+  clientName   String?
+  costPerColor Float
+  linkPricing  String
+  
+  margin300kg Float
+  margin500kg Float
+  margin1T    Float
+  margin3T    Float
+  margin5T    Float
+  margin10T   Float
+  margin20T   Float
+  margin30T   Float
+
+  plant       Plant    @relation(fields: [plantId], references: [id])
+}
